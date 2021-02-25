@@ -1,0 +1,4 @@
+rustflags = ["--cfg", "procmacro2_semver_exempt"]
+
+[build]
+rustflags = ["--cfg", "procmacro2_semver_exempt"]

@@ -1,0 +1,11 @@
+[package]
+name = "wyst-macros"
+version = "0.1.0"
+authors = ["Yehuda Katz <wycats@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pretty_assertions = "0.6.1"
+wyst-proc-macros = { path = "../proc-macros" }
