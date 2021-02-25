@@ -8,7 +8,5 @@ edition = "2018"
 
 [dependencies]
 camino = "1.0"
-wyst-macros = { path = "../macros" }
-
-[dev-dependencies]
-pretty_assertions = "0.6.1"
+wyst-core = { path = "../core" }
+wyst-core-traits = { path = "../core-traits" }

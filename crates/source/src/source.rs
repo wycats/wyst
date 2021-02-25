@@ -1,19 +1,16 @@
-use wyst_macros::{unit_tests, wyst_data};
+use wyst_core::{unit_tests, wyst_data};
 
-use crate::Span;
+use crate::span::Span;
 
-#[wyst_data]
+#[wyst_data(new)]
 pub struct Source {
     filename: camino::Utf8PathBuf,
     contents: String,
 }
 
 impl Source {
-    pub fn new(filename: impl Into<camino::Utf8PathBuf>, contents: impl Into<String>) -> Source {
-        Source {
-            filename: filename.into(),
-            contents: contents.into(),
-        }
+    pub fn contents(&self) -> &str {
+        &self.contents
     }
 
     pub fn slice(&self, span: Span) -> &str {

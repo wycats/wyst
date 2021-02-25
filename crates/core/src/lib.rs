@@ -1,9 +1,10 @@
 pub use pretty_assertions;
-pub use wyst_proc_macros::{unit_test, wyst_data};
+pub use wyst_core_traits::WystData;
+pub use wyst_proc_macros::{new, unit_test, wyst_copy, wyst_data, wyst_display, Display};
 
 #[macro_export]
 macro_rules! unit_tests {
-    (all({ $($all:tt)* }), $tests:ident($(( $name:tt, { $($tokens:tt)* } )),*)) => {
+    (all({ $($all:tt)* }), $tests:ident($(( $name:tt, { $($tokens:tt)* } )),* $(,)*) $(,)*) => {
         #[cfg(test)]
         mod $tests {
             #[allow(unused)]
@@ -20,7 +21,7 @@ macro_rules! unit_tests {
         }
     };
 
-    ($tests:ident($($tokens:tt)*)) => {
+    ($tests:ident($($tokens:tt)*) $(,)*) => {
         unit_tests!(all({}), $tests($($tokens)*));
     }
 }

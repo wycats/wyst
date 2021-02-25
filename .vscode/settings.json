@@ -1,6 +1,9 @@
 {
   "editor.formatOnSave": true,
-  "rust-analyzer.diagnostics.disabled": ["unresolved-import"],
+  "rust-analyzer.diagnostics.disabled": [
+    "unresolved-import",
+    "mismatched-arg-count"
+  ],
   "rust-analyzer.cargo.loadOutDirsFromCheck": true,
   "rust-analyzer.cargo.allFeatures": true,
   "rust-analyzer.assist.importPrefix": "by_crate",

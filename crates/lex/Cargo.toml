@@ -1,5 +1,5 @@
 [package]
-name = "wyst-fs"
+name = "wyst-lex"
 version = "0.1.0"
 authors = ["Yehuda Katz <wycats@gmail.com>"]
 edition = "2018"
@@ -7,5 +7,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+derive_more = "0.99.11"
+logos = "0.12.0"
 wyst-core = { path = "../core" }
-pretty_assertions = "0.6.1"
+wyst-core-traits = { path = "../core-traits" }
+wyst-source = { path = "../source" }

@@ -1,5 +1,5 @@
 [package]
-name = "wyst-macros"
+name = "wyst-core"
 version = "0.1.0"
 authors = ["Yehuda Katz <wycats@gmail.com>"]
 edition = "2018"
@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 pretty_assertions = "0.6.1"
 wyst-proc-macros = { path = "../proc-macros" }
+wyst-core-traits = { path = "../core-traits" }
