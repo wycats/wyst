@@ -1,5 +1,5 @@
 [package]
-name = "wyst-utils"
+name = "wyst-parse"
 version = "0.1.0"
 authors = ["Yehuda Katz <wycats@gmail.com>"]
 edition = "2018"
@@ -7,6 +7,6 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-indexmap = "1.6.2"
 wyst-core = { path = "../core" }
 wyst-core-traits = { path = "../core-traits" }
+wyst-source = { path = "../source" }

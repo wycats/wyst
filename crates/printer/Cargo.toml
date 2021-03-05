@@ -1,5 +1,5 @@
 [package]
-name = "wyst-lex"
+name = "wyst-printer"
 version = "0.1.0"
 authors = ["Yehuda Katz <wycats@gmail.com>"]
 edition = "2018"
@@ -7,7 +7,15 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-logos = "0.12.0"
+bytes = "1.0.1"
+lasso = { version = "0.5.0", features = ["multi-threaded"] }
+lazy_format = "1.8.3"
+num = "0.3.1"
+uuid = { version = "0.8.2", features = ["v4"] }
 wyst-core = { path = "../core" }
 wyst-core-traits = { path = "../core-traits" }
+wyst-style = { path = "../style" }
 wyst-source = { path = "../source" }
+wyst-utils = { path = "../utils" }
+pretty_assertions = "0.6.1"
+blake3 = "0.3.7"

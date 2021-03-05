@@ -173,6 +173,16 @@ pub fn wyst_data(args: TokenStream, input: TokenStream) -> TokenStream {
 }
 
 #[proc_macro_attribute]
+pub fn wyst_data_value(args: TokenStream, input: TokenStream) -> TokenStream {
+    let args = parse_args!(args as WystDataArgs);
+
+    // Parse the string representation
+    let ast = parse_macro_input!(input as DeriveInput);
+
+    data_value(ast, args)
+}
+
+#[proc_macro_attribute]
 pub fn wyst_copy(args: TokenStream, input: TokenStream) -> TokenStream {
     let args = parse_args!(args as WystDataArgs);
 
@@ -298,15 +308,21 @@ fn new(ast: &DeriveInput) -> TokenStream {
         Err(s) => return s,
     };
 
-    let field_args = fields.iter().map(|StructField { id, colon, ty }| {
-        let ty = quote! { impl Into<#ty>, };
+    let field_args: Vec<_> = fields
+        .iter()
+        .map(|StructField { id, colon, ty }| {
+            let ty = quote! { impl Into<#ty>, };
 
-        quote! { #id #colon #ty }
-    });
+            quote! { #id #colon #ty }
+        })
+        .collect();
 
-    let construct_fields = fields.iter().map(|StructField { id, colon, .. }| {
-        quote! { #id #colon #id .into(), }
-    });
+    let construct_fields: Vec<_> = fields
+        .iter()
+        .map(|StructField { id, colon, .. }| {
+            quote! { #id #colon #id .into(), }
+        })
+        .collect();
 
     // let DeriveInput {
     //     attrs: _,
@@ -332,6 +348,12 @@ fn new(ast: &DeriveInput) -> TokenStream {
                     #(#construct_fields)*
                 }
             }
+
+            #vis fn boxed(#(#field_args)*) -> Box<#name #params> {
+                Box::new(#name {
+                    #(#construct_fields)*
+                })
+            }
         }
     })
 }
@@ -339,6 +361,51 @@ fn new(ast: &DeriveInput) -> TokenStream {
 fn data(ast: DeriveInput, args: WystDataArgs) -> TokenStream {
     let attrs = quote! {
         Debug, Clone, Hash, Eq, PartialEq
+    };
+
+    let DeriveInput {
+        ident, generics, ..
+    } = ast.clone();
+
+    let Generics {
+        lt_token,
+        params,
+        gt_token,
+        where_clause,
+    } = generics.clone();
+
+    let generics = quote! {
+        #lt_token #params #gt_token
+    };
+
+    let copy_impl = if args.copy.is_some() {
+        quote! {
+            impl #generics Copy for #ident #generics #where_clause {}
+        }
+    } else {
+        quote! {}
+    };
+
+    let new_impl = if args.new.is_some() {
+        proc_macro2::TokenStream::from(new(&ast))
+    } else {
+        proc_macro2::TokenStream::from(quote! {})
+    };
+
+    let expanded = quote! {
+        #[derive(#attrs)]
+        #ast
+
+        #copy_impl
+        #new_impl
+    };
+
+    expanded.into()
+}
+
+fn data_value(ast: DeriveInput, args: WystDataArgs) -> TokenStream {
+    let attrs = quote! {
+        Debug, Eq, PartialEq
     };
 
     let DeriveInput {
